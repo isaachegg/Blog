@@ -1,0 +1,25 @@
+﻿@page "/posts"
+@using Microsoft.AspNetCore.Components.QuickGrid
+<PageTitle>Posts</PageTitle>
+
+<h1>Posts</h1>
+
+<QuickGrid Items="@PostList">
+    <PropertyColumn Property="@(p => p.Title)" Sortable="true" />
+    <PropertyColumn Property="@(p => p.PublishDate)" Format="yyyy-MM-dd" Sortable="true" />
+    <TemplateColumn Title="Link">
+            <NavLink class="nav-link" href="@context.url">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Test
+            </NavLink>
+    </TemplateColumn>
+</QuickGrid>
+
+
+@code {
+    record Post(string Title, DateOnly PublishDate, string url);
+
+    IQueryable<Post> PostList = new[]
+    {
+        new Post("test", new DateOnly(2024,3,12), "test"), 
+    }.AsQueryable();
+}
