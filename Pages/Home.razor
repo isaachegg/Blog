@@ -1,8 +1,42 @@
 ﻿@page "/"
 @page "/hello"
+@using Microsoft.AspNetCore.Components.QuickGrid
 <PageTitle>Home</PageTitle>
-<div style="text-align:center">
-    <h1>Isaac Hegg</h1>
-    <h3>Welcome!</h3>
-</div>
 
+
+<div class="flex-container">
+    
+    <div>
+        <img class="headshot" src="https://media.licdn.com/dms/image/D4E03AQEcu5_taAZ_5Q/profile-displayphoto-shrink_800_800/0/1690893748962?e=1715817600&v=beta&t=Xat77UbXQZfJ8M1EF4hFoKuFQmvH74Eh11ViKTwtKic">
+    </div>
+    <div class="title-head">
+        <h1>Isaac's Blog</h1>
+        <h3>Welcome!</h3>  
+        <p style="padding-right: 20px;padding-left: 20px">This is the personal blog of Isaac Hegg. Currently a Computer Enginnering student at 
+        the University of Illinois at Urbana-Champaign. This blog serves as a place for me to
+        share anything I feel is worth sharing, but will mostly be related to Computer Science/Enginnering.</p>
+    </div>
+</div>
+<hr>
+<h1>Posts</h1>
+
+<QuickGrid Items="@PostList">
+    <PropertyColumn Property="@(p => p.Title)" Sortable="true" />
+    <PropertyColumn Property="@(p => p.PublishDate)" Format="yyyy-MM-dd" Sortable="true" />
+    <TemplateColumn Title="Link">
+            <NavLink class="nav-link" href="@context.url">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Test
+            </NavLink>
+    </TemplateColumn>
+</QuickGrid>
+
+
+@code {
+    record Post(string Title, DateOnly PublishDate, string url);
+
+    IQueryable<Post> PostList = new[]
+    {
+        new Post("test", new DateOnly(2024,3,12), "test"),
+        new Post("test2", new DateOnly(2024,3,13), "test"),  
+    }.AsQueryable();
+}
